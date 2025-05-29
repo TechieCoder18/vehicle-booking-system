@@ -1,0 +1,1 @@
+INSERT INTO vehicle_types(`name`, wheels) Values ('Hackback', 4), ('SUV', 4), ('Sedan', 4), ('Sports', 2) 
