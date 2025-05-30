@@ -51,7 +51,8 @@ Server Setup:-
   npm install / yarn
   npm run start:dev
   Note:- Please change the database username, password, database, host and port from the file:- server/src/db/config.js. The code is given below
-            module.exports = {
+            
+                module.exports = {
                 development: {
                     username: "root",
                     password: "Reliable@1234",
