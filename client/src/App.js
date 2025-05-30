@@ -62,6 +62,9 @@ const steps = [
 ];
 
 const App = () => {
+
+  const today = new Date().toISOString().split('T')[0];
+
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -155,7 +158,7 @@ const App = () => {
 
         if (activeStep === 2) {
           const { data: obj } = await axios({
-            url: 'http://localhost:8089/rent-services/get-vehicle-modals',
+            url: 'http://localhost:8089/rent-services/get-vehicle-models',
             method: 'post',
             responseType: 'json',
             data: {
@@ -164,13 +167,14 @@ const App = () => {
           })
 
           if (obj.success === 'ok') {
-            setVehicleTypes(obj.modals);
+            setVehicleModels(obj.models);
             setActiveStep((prevStep) => prevStep + 1);
           }
 
         }
 
         if (activeStep === 4) {
+
           const { data: obj } = await axios({
             url: 'http://localhost:8089/rent-services/confirm-booking',
             method: 'post',
@@ -252,12 +256,12 @@ const App = () => {
               value={formData.vehicleType}
               onChange={handleChange('vehicleType')}
             >
-              {vehicleTypes.map((type) => (
+              {vehicleTypes.map((ele, i) => (
                 <FormControlLabel
-                  key={type}
-                  value={type}
+                  key={i}
+                  value={ele.id}
                   control={<Radio />}
-                  label={type}
+                  label={ele.name}
                 />
               ))}
             </RadioGroup>
@@ -274,12 +278,12 @@ const App = () => {
               value={formData.model}
               onChange={handleChange('model')}
             >
-              {vehicleModels.map((model) => (
+              {vehicleModels.map((ele, i) => (
                 <FormControlLabel
-                  key={model}
-                  value={model}
+                  key={i}
+                  value={ele.id}
                   control={<Radio />}
-                  label={model}
+                  label={ele.model}
                 />
               ))}
             </RadioGroup>
@@ -296,6 +300,7 @@ const App = () => {
               <TextField
                 label="Start Date"
                 type="date"
+                inputProps={{ min: today }}
                 InputLabelProps={{ shrink: true }}
                 value={formData.dateRange[0] || ''}
                 onChange={(e) =>
@@ -309,6 +314,7 @@ const App = () => {
               <TextField
                 label="End Date"
                 type="date"
+                inputProps={{ min: today }}
                 InputLabelProps={{ shrink: true }}
                 value={formData.dateRange[1] || ''}
                 onChange={(e) =>
